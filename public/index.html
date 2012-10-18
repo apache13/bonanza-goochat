@@ -22,12 +22,14 @@
 		<h2>Wealth Station</h2>
 		<div id="radio">
 			<div id="player">
-				<embed height="80" width="300" src="http://localhost:8000">
+				<embed height="80" width="300" src="http://localhost:8000" autoplay="false" controller="true">
 			</div>
 			<span id="playerInfo">n/a</span>
 			<div id="schedule">
 				<table border="1">
-					<caption>DJ Schedule</caption>
+					<caption>
+						DJ Schedule
+					</caption>
 					<tr>
 						<th></th>
 						<th>8:00-12:00</th>
@@ -73,11 +75,14 @@
 
 		<h2>Chat Log</h2>
 
-		<div id="chatLogPane" style="width:500px;height:300px;overflow-y:scroll;background:gainsboro;">
+		<div id="chatLogPane" style="width:500px;height:300px;overflow-y:scroll;background:gainsboro;float:left;">
 			<ul id="chatLog" style="padding-left: 5px; list-style-type: none"></ul>
 		</div>
+		<div id="userListPane" style="width:200px;height:300px;overflow-y:scroll;float:left;">
+			<ul id="userList"></ul>
+		</div>
 
-		<div class="chatActions">
+		<div class="chatActions" style="clear: both">
 			<span id="name">?</span>
 			<input type="text" id="sayText" style="width: 200px" />
 			<button id="sayBtn">
@@ -91,42 +96,58 @@
 		<script>
 			var socket = io.connect();
 			var id;
-			socket.on('id', onIdChanged);
+			socket.on('id', onId);
+			socket.on('syn', onSyn);
+			socket.on('pushMsg', onPushMsg);
+			socket.on('changeIdResult', onChangeIdResult);
+			socket.on('idChanged', onIdChanged);
 
-			function onIdChanged(data) {
+			function onId(data) {
 				id = data.id;
 				$('#name').html(data.id);
+				$('#userList').append('<li><strong>' + data.id + '</strong></li>');
 			}
 
-
-			socket.on('pushMsg', function(data) {
+			function onPushMsg(data) {
 				$('#chatLog').append('<li><strong>' + data.id + '</strong> : ' + data.msg + '</li>');
 				$("#chatLogPane").scrollTop($("#chatLog")[0].scrollHeight);
-			});
+			}
 
-			socket.on('changeIdResult', function(data) {
+			function onChangeIdResult(data) {
 				if (data.success) {
 					id = data.newId;
-					onIdChanged({
+					onId({
 						'id' : id
 					});
 					return;
 				}
 				alert('Name already in used.');
-			});
+			}
 
-			socket.on('idChanged', function(data) {
+			function onIdChanged(data) {
 				$('#chatLog').append('<li><strong>' + data.oldId + '</strong> has changed name to: ' + data.newId + '</li>');
-			});
+			}
+
+			function onSyn(data) {
+				$('#userList').children().remove();
+				var userIds = data['userIds'];
+				for (var userId in userIds) {
+					$('#userList').append('<li><strong>' + userId + '</strong></li>');
+				}
+				ack();
+			}
+
+			function ack(){
+				socket.emit('ack', {'id':id});
+			}
+			/*----------------------------*/
 
 			$('#sayBtn').click(emitMsg);
-
 			var $sayText = $('#sayText').keyup(function(e) {
 				if (e.keyCode === 13) {
 					emitMsg();
 				}
 			});
-
 			function emitMsg() {
 				var msg = $sayText.val();
 				if (!!msg == false) {

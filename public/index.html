@@ -3,18 +3,6 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
 		<title>GooChat Beta</title>
-
-		<script type="text/javascript" src="/javascripts/jquery.mousewheel.js"></script>
-		<script type="text/javascript" src="/javascripts/jquery.em.js"></script>
-		<script type="text/javascript" src="/javascripts/jScrollPane.js"></script>
-		<link rel="stylesheet" type="text/css" media="all" href="/stylesheets/jScrollPane.css" />
-		<link rel="stylesheet" type="text/css" media="all" href="/stylesheets/demoStyles.css" />
-		<script type="text/javascript">
-			$(function() {
-				// this initialises the demo scollpanes on the page.
-				$('#chatLogPane').jScrollPane();
-			});
-		</script>
 	</head>
 	<body>
 
@@ -33,10 +21,45 @@
 
 		<h2>Wealth Station</h2>
 		<div id="radio">
-			<audio controls="controls">
-				<source src="http://localhost:8000" type="audio/mpeg">
-				<embed height="50" width="100" src="http://localhost:8000">
-			</audio>
+			<div id="player">
+				<embed height="80" width="300" src="http://localhost:8000">
+			</div>
+			<span id="playerInfo">n/a</span>
+			<div id="schedule">
+				<table border="1">
+					<caption>DJ Schedule</caption>
+					<tr>
+						<th></th>
+						<th>8:00-12:00</th>
+						<th>13:00-17:00</th>
+					</tr>
+					<tr>
+						<td>Mon</td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>Tue</td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>Web</td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>Thu</td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>Fri</td>
+						<td></td>
+						<td></td>
+					</tr>
+				</table>
+			</div>
 		</div>
 
 		<h2>Profile</h2>
@@ -49,8 +72,9 @@
 		</div>
 
 		<h2>Chat Log</h2>
-		<div id="chatLogPane" class="scroll-pane" style="width: 500px; height: 300px;float: none">
-			<ul id="chatLog" style="padding-left: 0px; list-style-type: none"></ul>
+
+		<div id="chatLogPane" style="width:500px;height:300px;overflow-y:scroll;background:gainsboro;">
+			<ul id="chatLog" style="padding-left: 5px; list-style-type: none"></ul>
 		</div>
 
 		<div class="chatActions">

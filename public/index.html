@@ -22,7 +22,7 @@
 		<h2>Wealth Station</h2>
 		<div id="radio">
 			<div id="player">
-				<embed height="80" width="300" src="http://nuttapon-i3:8000" autoplay="false" controller="true">
+				<embed height="80" width="300" src="http://localhost:8000" autoplay="false" controller="true">
 			</div>
 			<span id="playerInfo">n/a</span>
 			<div id="schedule">
@@ -79,7 +79,7 @@
 			<ul id="chatLog" style="padding-left: 5px; list-style-type: none"></ul>
 		</div>
 		<div id="userListPane" style="width:200px;height:300px;overflow-y:scroll;float:left;">
-			<ul id="userList"></ul>
+			<ul id="userList" style="list-style-type: none;padding-left: 5px;"></ul>
 		</div>
 
 		<div class="chatActions" style="clear: both">
@@ -109,7 +109,7 @@
 			}
 
 			function onPushMsg(data) {
-				$('#chatLog').append('<li><strong>' + data.id + '</strong> : ' + data.msg + '</li>');
+				$('#chatLog').append('<li><strong>'+data.id+'</strong>&nbsp<span style="font-style:italic;font-size:smaller">'+data.timestamp+'</span>&nbsp:&nbsp<span>'+data.msg+'</span></li>');
 				$("#chatLogPane").scrollTop($("#chatLog")[0].scrollHeight);
 			}
 
@@ -135,12 +135,15 @@
 				for (var userId in userIds) {
 					$('#userList').append('<li><strong>' + userId + '</strong></li>');
 				}
-				
+
 			}
 
-			function ack(){
-				socket.emit('ack', {'id':id});
+			function ack() {
+				socket.emit('ack', {
+					'id' : id
+				});
 			}
+
 			/*----------------------------*/
 
 			$('#sayBtn').click(emitMsg);
@@ -173,6 +176,7 @@
 					'oldId' : id,
 					'newId' : newId
 				});
+				$('#nameChangeTxt').val('');
 			});
 
 		</script>

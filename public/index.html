@@ -19,49 +19,45 @@
 			</ul>
 		</div>
 
+		<div id="schedule">
+			<table border="1">
+				<caption>
+					DJ Schedule
+				</caption>
+				<tr>
+					<th>Time/Date</th>
+					<th>Mon</th>
+					<th>Tue</th>
+					<th>Wed</th>
+					<th>Thu</th>
+					<th>Fri</th>
+					
+				</tr>
+				<tr>
+					<th>8:00-12.00</th>
+					<td>DJ Beer</td>
+					<td>DJ Poy</td>
+					<td>DJ Beer</td>
+					<td>DJ Poy</td>
+					<td>DJ Beer</td>
+				</tr>
+				<tr>
+					<th>13:00-17.00</th>
+					<td>DJ Poy</td>
+					<td>DJ Beer</td>
+					<td>DJ Poy</td>
+					<td>DJ Beer</td>
+					<td>DJ Poy</td>
+				</tr>
+			</table>
+		</div>
+
 		<h2>Wealth Station</h2>
 		<div id="radio">
 			<div id="player">
 				<embed height="80" width="300" src="http://localhost:8000" autoplay="false" controller="true">
 			</div>
 			<span id="playerInfo">n/a</span>
-			<div id="schedule">
-				<table border="1">
-					<caption>
-						DJ Schedule
-					</caption>
-					<tr>
-						<th></th>
-						<th>8:00-12:00</th>
-						<th>13:00-17:00</th>
-					</tr>
-					<tr>
-						<td>Mon</td>
-						<td>DJ Beer</td>
-						<td>DJ Poy</td>
-					</tr>
-					<tr>
-						<td>Tue</td>
-						<td>DJ Poy</td>
-						<td>DJ Beer</td>
-					</tr>
-					<tr>
-						<td>Web</td>
-						<td>DJ Beer</td>
-						<td>DJ Poy</td>
-					</tr>
-					<tr>
-						<td>Thu</td>
-						<td>DJ Beer</td>
-						<td>DJ Poy</td>
-					</tr>
-					<tr>
-						<td>Fri</td>
-						<td>DJ Poy</td>
-						<td>DJ Beer</td>
-					</tr>
-				</table>
-			</div>
 		</div>
 
 		<h2>Profile</h2>
@@ -83,7 +79,7 @@
 		</div>
 
 		<div class="chatActions" style="clear: both">
-			<span id="name">?</span>
+			<span id="name" style="font-weight:bold;"></span>
 			<input type="text" id="sayText" style="width: 200px" />
 			<button id="sayBtn">
 				Send
@@ -109,7 +105,7 @@
 			}
 
 			function onPushMsg(data) {
-				$('#chatLog').append('<li><strong>'+data.id+'</strong>&nbsp<span style="font-style:italic;font-size:smaller">'+data.timestamp+'</span>&nbsp:&nbsp<span>'+data.msg+'</span></li>');
+				$('#chatLog').append('<li><strong>' + data.id + '</strong>&nbsp<span style="font-style:italic;font-size:smaller">' + data.timestamp + '</span>&nbsp:&nbsp<span>' + data.msg + '</span></li>');
 				$("#chatLogPane").scrollTop($("#chatLog")[0].scrollHeight);
 			}
 

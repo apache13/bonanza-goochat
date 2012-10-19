@@ -55,7 +55,10 @@
 		<h2>Wealth Station</h2>
 		<div id="radio">
 			<div id="player">
-				<embed height="60" width="300" src="http://localhost:8000" autoplay="false" controller="true">
+				<audio controls="controls" height="100" width="100" autoplay="true">
+					<source src="http://localhost:8000" type="audio/mp3">
+					<embed height="100" width="100" src="http://localhost:8000">
+				</audio>
 			</div>
 			<span>คุณกำลังฟัง : </span><span id="currentSong">loading ...</span>
 		</div>

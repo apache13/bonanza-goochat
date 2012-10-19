@@ -57,7 +57,7 @@
 			<div id="player">
 				<embed height="80" width="300" src="http://localhost:8000" autoplay="false" controller="true">
 			</div>
-			<span id="playerInfo">n/a</span>
+			<span>คุณกำลังฟัง : </span><span id="currentSong">loading ...</span>
 		</div>
 
 		<h2>Profile</h2>
@@ -79,7 +79,7 @@
 		</div>
 
 		<div class="chatActions" style="clear: both">
-			<span id="name" style="font-weight:bold;"></span>
+			<span id="name" style="font-weight:bold;">?</span>
 			<input type="text" id="sayText" style="width: 200px" />
 			<button id="sayBtn">
 				Send
@@ -105,7 +105,7 @@
 			}
 
 			function onPushMsg(data) {
-				$('#chatLog').append('<li><strong>' + data.id + '</strong>&nbsp<span style="font-style:italic;font-size:smaller">' + data.timestamp + '</span>&nbsp:&nbsp<span>' + data.msg + '</span></li>');
+				$('#chatLog').append('<li><span style="font-size:smaller">' + data.timestamp + '</span>&nbsp<strong>' + data.id + '</strong>&nbsp:&nbsp<span>' + data.msg + '</span></li>');
 				$("#chatLogPane").scrollTop($("#chatLog")[0].scrollHeight);
 			}
 
@@ -126,12 +126,18 @@
 
 			function onSyn(data) {
 				ack();
+				
 				$('#userList').children().remove();
 				var userIds = data['userIds'];
 				for (var userId in userIds) {
 					$('#userList').append('<li><strong>' + userId + '</strong></li>');
 				}
-
+				
+				var currentSong = data['currentSong'];
+				if(currentSong['_OK']){
+					$('#currentSong').html(currentSong['Artist']+'-'+currentSong['Title']);
+				}
+				
 			}
 
 			function ack() {

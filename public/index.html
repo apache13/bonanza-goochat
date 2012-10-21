@@ -62,7 +62,10 @@
 			</div>
 			<span>คุณกำลังฟัง : </span><span id="currentSong">loading ...</span>
 		</div>
-
+		<div id="playListPane" style="width:500px;height:300px;overflow-y:scroll;background:gainsboro;">
+			<ul id="playList" style="list-style-type: none;padding-left: 5px;"></ul>
+		</div>
+		
 		<h2>Profile</h2>
 		<div class="pref">
 			Change name to:
@@ -80,7 +83,7 @@
 		<div id="userListPane" style="width:200px;height:300px;overflow-y:scroll;float:left;">
 			<ul id="userList" style="list-style-type: none;padding-left: 5px;"></ul>
 		</div>
-
+		
 		<div class="chatActions" style="clear: both">
 			<span id="name" style="font-weight:bold;">?</span>
 			<input type="text" id="sayText" style="width: 200px" />
@@ -130,6 +133,8 @@
 			function onSyn(data) {
 				ack();
 				
+				//console.log(data);
+				
 				$('#userList').children().remove();
 				var userIds = data['userIds'];
 				for (var userId in userIds) {
@@ -138,7 +143,23 @@
 				
 				var currentSong = data['currentSong'];
 				if(currentSong['_OK']){
-					$('#currentSong').html(currentSong['Artist']+'-'+currentSong['Title']);
+					//$('#currentSong').html(currentSong['Artist']+'-'+currentSong['Title']);
+					$('#currentSong').html(currentSong['file']);
+				}
+				
+				$('#playList').children().remove();
+				var playList = data['playList'];
+				var currentPos = currentSong['Pos'];
+				if(playList['_OK']){
+					var index = 0;
+					for(var song in playList){
+						if(index == currentPos){
+							$('#playList').append('<li><font color="red">'+playList[song]+'</font></li>');
+						}else{
+							$('#playList').append('<li>'+playList[song]+'</li>');
+						}
+						index++;
+					}
 				}
 				
 			}

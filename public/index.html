@@ -35,19 +35,19 @@
 				</tr>
 				<tr>
 					<th>8:00-12.00</th>
-					<td>DJ Beer</td>
+					<td>DJ Love</td>
 					<td>DJ Poy</td>
-					<td>DJ Beer</td>
+					<td>DJ Love</td>
 					<td>DJ Poy</td>
-					<td>DJ Beer</td>
+					<td>DJ Panszy</td>
 				</tr>
 				<tr>
 					<th>13:00-17.00</th>
 					<td>DJ Poy</td>
-					<td>DJ Beer</td>
+					<td>DJ Love</td>
 					<td>DJ Poy</td>
-					<td>DJ Beer</td>
-					<td>DJ Poy</td>
+					<td>DJ น้องฟิล์ม</td>
+					<td>DJ น้องฟิล์ม</td>
 				</tr>
 			</table>
 		</div>
@@ -56,15 +56,17 @@
 		<div id="radio">
 			<div id="player">
 				<audio controls="controls" height="100" width="100" autoplay="true">
-					<source src="http://localhost:8000" type="audio/mp3">
-					<embed height="100" width="100" src="http://localhost:8000">
+					<source src="http://nuttapon-i3:8000" type="audio/mp3">
+					<embed height="100" width="100" src="http://nuttapon-i3:8000">
 				</audio>
 			</div>
 			<span>คุณกำลังฟัง : </span><span id="currentSong">loading ...</span>
 		</div>
+		<!--
 		<div id="playListPane" style="width:500px;height:300px;overflow-y:scroll;background:gainsboro;">
 			<ul id="playList" style="list-style-type: none;padding-left: 5px;"></ul>
 		</div>
+		-->
 		
 		<h2>Profile</h2>
 		<div class="pref">
@@ -78,7 +80,7 @@
 		<h2>Chat Log</h2>
 
 		<div id="chatLogPane" style="width:500px;height:300px;overflow-y:scroll;background:gainsboro;float:left;">
-			<ul id="chatLog" style="padding-left: 5px; list-style-type: none"></ul>
+			<ul id="chatLog" style="margin-left: 0px;padding-left: 5px; list-style-type: none"></ul>
 		</div>
 		<div id="userListPane" style="width:200px;height:300px;overflow-y:scroll;float:left;">
 			<ul id="userList" style="list-style-type: none;padding-left: 5px;"></ul>
@@ -94,7 +96,16 @@
 
 		<script src="/socket.io/socket.io.js"></script>
 		<script src="/javascripts/jquery-1.8.1.min.js"></script>
-
+		<script src="/javascripts/jquery.titlealert.min.js"></script>
+		<script src="/javascripts/jquery.pnotify.min.js"></script>
+		<script src="/javascripts/bootstrap.min.js"></script>
+		
+		
+		<link href="/css/jquery.pnotify.default.css" media="all" rel="stylesheet" type="text/css" />
+		<link href="/css/jquery.pnotify.default.icons.css" media="all" rel="stylesheet" type="text/css" />
+		<link href="/css/bootstrap.min.css" media="all" rel="stylesheet" type="text/css" />
+		
+		
 		<script>
 			var socket = io.connect();
 			var id;
@@ -103,7 +114,9 @@
 			socket.on('pushMsg', onPushMsg);
 			socket.on('changeIdResult', onChangeIdResult);
 			socket.on('idChanged', onIdChanged);
-
+			
+			$.pnotify.defaults.styling = "bootstrap";
+			
 			function onId(data) {
 				id = data.id;
 				$('#name').html(data.id);
@@ -113,6 +126,11 @@
 			function onPushMsg(data) {
 				$('#chatLog').append('<li><span style="font-size:smaller">' + data.timestamp + '</span>&nbsp<strong>' + data.id + '</strong>&nbsp:&nbsp<span>' + data.msg + '</span></li>');
 				$("#chatLogPane").scrollTop($("#chatLog")[0].scrollHeight);
+				$.titleAlert(data.msg);
+				$.pnotify({
+					title: data.id,
+					text: data.msg
+				});
 			}
 
 			function onChangeIdResult(data) {

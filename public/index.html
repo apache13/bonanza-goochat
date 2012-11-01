@@ -3,6 +3,29 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
 		<title>GooChat Beta</title>
+		
+		<script src="/socket.io/socket.io.js"></script>
+		<script src="/javascripts/jquery-1.8.1.min.js"></script>
+		<script src="/javascripts/jquery.titlealert.min.js"></script>
+		<script src="/javascripts/jquery.pnotify.min.js"></script>
+		<script src="/javascripts/bootstrap.min.js"></script>
+		<script src="/javascripts/jquery.countdown.min.js"></script>
+		
+		<script src="/javascripts/jquery.tinysort.min.js"></script>
+		
+		
+		<link href="/css/jquery.pnotify.default.css" media="all" rel="stylesheet" type="text/css" />
+		<link href="/css/jquery.pnotify.default.icons.css" media="all" rel="stylesheet" type="text/css" />
+		<link href="/css/bootstrap.min.css" media="all" rel="stylesheet" type="text/css" />
+		<link href="/css/jquery.countdown.css" media="all" rel="stylesheet" type="text/css" />
+		
+		<script type="text/javascript">
+		$(function(){			
+			var amp = new Date(2012,11-1,30); 
+			$('#counter').countdown({until: amp,compact: true}); 
+		});
+    </script>
+
 	</head>
 	<body>
 
@@ -16,9 +39,15 @@
 				<li>
 					Cannot send empty message
 				</li>
+				<li>
+					Celebration <div id="counter" style="display:inline;"></div>
+				</li>
 			</ul>
 		</div>
-
+	
+		
+  
+  
 		<div id="schedule">
 			<table border="1">
 				<caption>
@@ -83,7 +112,7 @@
 			<ul id="chatLog" style="margin-left: 0px;padding-left: 5px; list-style-type: none"></ul>
 		</div>
 		<div id="userListPane" style="width:200px;height:300px;overflow-y:scroll;float:left;">
-			<ul id="userList" style="list-style-type: none;padding-left: 5px;"></ul>
+			<ul id="userList" style="list-style-type: none;padding-left: 5px;margin-left:5px;"></ul>
 		</div>
 		
 		<div class="chatActions" style="clear: both">
@@ -94,16 +123,7 @@
 			</button>
 		</div>
 
-		<script src="/socket.io/socket.io.js"></script>
-		<script src="/javascripts/jquery-1.8.1.min.js"></script>
-		<script src="/javascripts/jquery.titlealert.min.js"></script>
-		<script src="/javascripts/jquery.pnotify.min.js"></script>
-		<script src="/javascripts/bootstrap.min.js"></script>
 		
-		
-		<link href="/css/jquery.pnotify.default.css" media="all" rel="stylesheet" type="text/css" />
-		<link href="/css/jquery.pnotify.default.icons.css" media="all" rel="stylesheet" type="text/css" />
-		<link href="/css/bootstrap.min.css" media="all" rel="stylesheet" type="text/css" />
 		
 		
 		<script>
@@ -158,6 +178,7 @@
 				for (var userId in userIds) {
 					$('#userList').append('<li><strong>' + userId + '</strong></li>');
 				}
+				$('#userList li').tsort();
 				
 				var currentSong = data['currentSong'];
 				if(currentSong['_OK']){

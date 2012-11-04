@@ -13,7 +13,9 @@
 		
 		<script src="/javascripts/jquery.tinysort.min.js"></script>
 		
+		<script src="/javascripts/slides.min.jquery.js"></script>
 		
+
 		<link href="/css/jquery.pnotify.default.css" media="all" rel="stylesheet" type="text/css" />
 		<link href="/css/jquery.pnotify.default.icons.css" media="all" rel="stylesheet" type="text/css" />
 		<link href="/css/bootstrap.min.css" media="all" rel="stylesheet" type="text/css" />
@@ -32,25 +34,26 @@
 		<h1>GooChat Beta</h1>
 		
 		<div style="float:right;margin-right:50px;">
-			<div id="rip" style="width:250px;height:250px;">
+			<div id="event1" style="width:250px;height:250px;">
+				<div>
+					<img src="img/p'jib.jpg" height="250" width="250">
+				</div>
+				<div style="margin-top:5px;">
+					<span>4-Nov-2012 : ยินดีกับว่าที่เจ้าสาวด้วยครับ</span>	  
+				</div>
+			</div>
+			
+			<div id="event2" style="width:250px;height:250px;margin-top: 50px;">
 				<div>
 					<img src="img/coming-soon.jpg" height="250" width="250">
 				</div>
 				<div style="margin-top:5px;">
-					R.I.P.<div id="counter" style="display:inline;"></div>
+					อำลาบิดาแห่ง GooChat <div id="counter" style="display:inline;"></div>
 				</div>
 			</div>
 			
-			<div id="sponsor1" style="width:250px;height:200px;margin-top:50px;">
-				<div>
-					<a href="https://www.wealthmagik.com/Home.aspx" target="_blank"><img src="img/My-Wealth-Logo.png"></a>
-				</div>
-			</div>
-			<div id="sponsor2" style="width:250px;height:200px;margin-top:50px;">
-				
-			</div>
-			<div id="sponsor3" style="width:250px;height:200px;margin-top:50px;">
-				
+			<div id="sponsor1" style="width:250px;height:100px;margin-top:50px;">
+				<a href="https://www.wealthmagik.com/Home.aspx" target="_blank"><img src="img/My-Wealth-Logo.png"></a>
 			</div>
 		</div>
 		
@@ -107,8 +110,8 @@
 		<div id="radio">
 			<div id="player">
 				<audio controls="controls" height="100" width="100" autoplay="true">
-					<source src="http://nuttapon-i3:8000" type="audio/mp3">
-					<embed height="100" width="100" src="http://nuttapon-i3:8000">
+					<source src="http://localhost:8000" type="audio/mp3">
+					<embed height="100" width="100" src="http://localhost:8000">
 				</audio>
 			</div>
 			<span>คุณกำลังฟัง : </span><span id="currentSong">loading ...</span>

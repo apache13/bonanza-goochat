@@ -65,7 +65,6 @@
 			</div>
 		</div>
 		
->>>>>>> 783f3dda2fc1b70c101051c17acb0fce714e0874
 		<div>
 			<h2>Announcement</h2>
 			<ul>
@@ -81,10 +80,6 @@
 			</ul>
 		</div>
 	
-		
-		
-  
-  
 		<div id="schedule">
 			<table border="1">
 				<caption>
@@ -172,6 +167,8 @@
 			
 			$.pnotify.defaults.styling = "bootstrap";
 			
+			var prevSong = '';
+			
 			function onId(data) {
 				id = data.id;
 				$('#name').html(data.id);
@@ -222,6 +219,12 @@
 					$('#currentSong').html(currentSong['file']);
 				}
 				
+				if(prevSong != currentSong['file']){
+					prevSong = currentSong['file'];
+					musicNotification(currentSong['file']);
+				}
+				
+				/*
 				$('#playList').children().remove();
 				var playList = data['playList'];
 				var currentPos = currentSong['Pos'];
@@ -236,6 +239,7 @@
 						index++;
 					}
 				}
+				*/
 				
 			}
 
@@ -280,11 +284,25 @@
 				$('#nameChangeTxt').val('');
 			});
 			
+			function musicNotification(currenetSong){
+				if (window.webkitNotifications.checkPermission() == 0) { // 0 is PERMISSION_ALLOWED
+					// function defined in step 2
+					notify = window.webkitNotifications.createNotification(
+      				'img/song.jpeg', 'listening', currenetSong);
+    				notify.show();
+					setTimeout(function() {
+						notify.cancel();
+					}, '5000');
+				} else {
+					window.webkitNotifications.requestPermission();
+				}
+			}
+			
 			function messageNotification(data){
 				if (window.webkitNotifications.checkPermission() == 0) { // 0 is PERMISSION_ALLOWED
 					// function defined in step 2
 					notify = window.webkitNotifications.createNotification(
-      				'img/user.jpeg', data.id, data.msg);
+      				'img/message.jpeg', data.id, data.msg);
     				notify.show();
 					setTimeout(function() {
 						notify.cancel();
@@ -297,7 +315,12 @@
 			function requestNotificationPermission(){
 				if (window.webkitNotifications.checkPermission() == 0) { // 0 is PERMISSION_ALLOWED
 					// function defined in step 2
-					window.webkitNotifications.createNotification('img/success.jpeg', 'GooChat', 'Enable notification');
+					//alert('Enable Goochat notification.');
+					notify = window.webkitNotifications.createNotification('img/success.jpeg', 'GooChat Notification', 'Enable Notification');
+					notify.show();
+					setTimeout(function() {
+						notify.cancel();
+					}, '5000');
 				} else {
 					window.webkitNotifications.requestPermission();
 				}

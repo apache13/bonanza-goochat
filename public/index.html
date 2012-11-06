@@ -24,6 +24,13 @@
 			var amp = new Date(2012,11-1,30,17,00,00); 
 			$('#counter').countdown({until: amp,compact: true}); 
 		});
+		
+		if (window.webkitNotifications) {
+			console.log("Notifications are supported!");
+		}else{
+			console.log("Notifications are not supported for this Browser/OS version yet.");
+		}
+			
     </script>
 
 	</head>
@@ -31,26 +38,29 @@
 
 		<h1>GooChat Beta</h1>
 		
+	
 		<div style="float:right;margin-right:50px;">
-			<div id="rip" style="width:250px;height:250px;">
+			<div id="event1" style="width:250px;height:250px;">
 				<div>
 					<img src="img/coming-soon.jpg" height="250" width="250">
 				</div>
 				<div style="margin-top:5px;">
-					R.I.P.<div id="counter" style="display:inline;"></div>
+					<span>ร่วมอำลาบิดา GooChat</span><div id="counter" style="display:inline;"></div>
 				</div>
 			</div>
 			
-			<div id="sponsor1" style="width:250px;height:200px;margin-top:50px;">
+			<div id="event2" style="width:250px;height:250px;margin-top:50px;">
+				<iframe width="250" height="250" src="http://www.youtube.com/embed/bMzXlS8e2qc" frameborder="0" allowfullscreen></iframe>
+			</div>
+			
+			<div id="event3" style="width:250px;height:250px;margin-top:50px;">
+			<iframe width="250" height="250" src="http://www.youtube.com/embed/No-zY7Yah1Q" frameborder="0" allowfullscreen></iframe>
+			</div>
+			
+			<div id="sponsor1" style="width:250px;height:150px;margin-top:50px;">
 				<div>
 					<a href="https://www.wealthmagik.com/Home.aspx" target="_blank"><img src="img/My-Wealth-Logo.png"></a>
 				</div>
-			</div>
-			<div id="sponsor2" style="width:250px;height:200px;margin-top:50px;">
-				
-			</div>
-			<div id="sponsor3" style="width:250px;height:200px;margin-top:50px;">
-				
 			</div>
 		</div>
 		
@@ -62,6 +72,9 @@
 				</li>
 				<li>
 					Cannot send empty message
+				</li>
+				<li>
+					GooChat Notification <button id="notificationBtn">Enable</button>
 				</li>
 			</ul>
 		</div>
@@ -129,7 +142,7 @@
 		</div>
 
 		<h2>Chat Log</h2>
-
+		<div>
 		<div id="chatLogPane" style="width:500px;height:300px;overflow-y:scroll;background:gainsboro;float:left;">
 			<ul id="chatLog" style="margin-left: 0px;padding-left: 5px; list-style-type: none"></ul>
 		</div>
@@ -137,17 +150,15 @@
 			<ul id="userList" style="list-style-type: none;padding-left: 5px;margin-left:5px;"></ul>
 		</div>
 		
-		<div class="chatActions" style="clear: both">
+		<div class="chatActions" style="clear: left;">
 			<span id="name" style="font-weight:bold;">?</span>
 			<input type="text" id="sayText" style="width: 200px" />
 			<button id="sayBtn">
 				Send
 			</button>
 		</div>
+		</div>
 
-		
-		
-		
 		<script>
 			var socket = io.connect();
 			var id;
@@ -168,11 +179,12 @@
 			function onPushMsg(data) {
 				$('#chatLog').append('<li><span style="font-size:smaller">' + data.timestamp + '</span>&nbsp<strong>' + data.id + '</strong>&nbsp:&nbsp<span>' + data.msg + '</span></li>');
 				$("#chatLogPane").scrollTop($("#chatLog")[0].scrollHeight);
-				$.titleAlert(data.msg);
-				$.pnotify({
-					title: data.id,
-					text: data.msg
-				});
+				//$.titleAlert(data.msg);
+				//$.pnotify({
+				//	title: data.id,
+				//	text: data.msg
+				//});
+				messageNotification(data);
 			}
 
 			function onChangeIdResult(data) {
@@ -265,7 +277,32 @@
 				});
 				$('#nameChangeTxt').val('');
 			});
-
+			
+			function messageNotification(data){
+				if (window.webkitNotifications.checkPermission() == 0) { // 0 is PERMISSION_ALLOWED
+					// function defined in step 2
+					notify = window.webkitNotifications.createNotification(
+      				'img/user.jpeg', data.id, data.msg);
+    				notify.show();
+					setTimeout(function() {
+						notify.cancel();
+					}, '5000');
+				} else {
+					window.webkitNotifications.requestPermission();
+				}
+			}
+			
+			function requestNotificationPermission(){
+				if (window.webkitNotifications.checkPermission() == 0) { // 0 is PERMISSION_ALLOWED
+					// function defined in step 2
+					window.webkitNotifications.createNotification('img/success.jpeg', 'GooChat', 'Enable notification');
+				} else {
+					window.webkitNotifications.requestPermission();
+				}
+			}
+			
+			$('#notificationBtn').click(requestNotificationPermission);
+			
 		</script>
 
 	</body>
